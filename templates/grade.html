@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
-    <title>Upload Pic</title>
+    <meta charset="utf-8">
+    <title>Grade - Siddhesh</title>
     <style>
       body {
         font-family: Times New Roman, serif;
@@ -51,27 +52,49 @@
         color: #333;
       }
     </style>
-    
 </head>
 <body>
-  <center><h3>CSE 6332 Assignment-01 Siddhesh Dandavatimath</h3></center>
-  <center><h4>1002091182</h4></center><br/><br/>
+<h5><a href="/">Home</a></h5>
+<center><h3>CSE 6332 - Quiz-1</h3></center>
+<center><h4>Siddhesh Dandavatimath - 91182</h4></center><br/><br/>
+
 <center>
 <table style="border: 1px solid black; padding: 8px;">
-  <tr><td>1</td><td><a href="/">Home</a></td></tr>
-  <tr><td>2</td><td><a href="/sxdupload">Upload your file:</a></td></tr>
-  <tr><td>3</td><td><a href="/sxdsearchbyname">Search by Name:</a></td></tr>
-  <tr><td>4</td><td><a href="/sxdsal">Pictures with salary less than 99000:</a></td></tr>
-  <tr><td>5</td><td><a href="/sxdremove">Remove Details:</a></td></tr>
-  <tr><td>6</td><td><a href="/sxdupload_pic">Upload Image.</a></td></tr>
-  <tr><td>7</td><td><a href="/sxdedit">Edit Details.</a></td></tr>
-</table><br/><br/>
-<body>
 
-<form action="/sxd_newpic" method="post" enctype="multipart/form-data">
-    Select Image: <input type="file" name="img"/><br/><br/>
-    <input type="submit" value="Submit">
-</form>
+  <tr><td>1</td><td><a href="/">Home</a></td></tr>
+  <tr><td>2</td><td><a href="/sxdsearchbyname">Search by Name:</a></td></tr>
+  <tr><td>3</td><td><a href="/sxdremove">Remove Details:</a></td></tr>
+  <tr><td>4</td><td><a href="/sxdadd">Add User.</a></td></tr>
+  <tr><td>5</td><td><a href="/sxdedit">Edit Details.</a></td></tr>
+  <tr><td>6</td><td><a href="/range">Range.</a></td></tr>
+</table>
+
+<h3> Name, Picture and Description between Rows.</h3>
+<form action="/range" method="post">
+    Enter Row Range start :- <input type="text" name="r1"><br/>
+    Enter Row Range end :- <input type="text" name="r2"><br/>
+    <input type="submit" Value="Submit"/>
+</form><br/><br/>
+
+<div>
+  {%if message%}
+  <div>
+    <h4>{{name}}</h4>
+    <img src={{ image_path }} alt="Preview" width="500" height="600">
+    <h4>{{row}}</h4>
+    <h4>{{seat}}</h4>
+    <h4>{{notes}}</h4>
+    <h4>{{count}}</h4>
+
+  </div>
+  {%endif%}
+  {%if error%}
+    {{error}}
+  {%endif%}
+
+</div>
+
 </center>
+
 </body>
 </html>

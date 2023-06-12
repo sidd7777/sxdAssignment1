@@ -7,174 +7,218 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def sxdindex():
-    return render_template('sxdindex.html')
-
-@app.route("/sxdupload", methods=['GET', 'POST'])
-def sxdupload():
-    if request.method == 'POST':
-        reqFile = request.files['csvfile']
-        if reqFile.filename != '':
-            filename = secure_filename(reqFile.filename)
-            reqFile.save(os.path.join('static', filename))
-            return render_template('sxdupload.html', message="CSV file uploaded successfully.")
-    return render_template('sxdupload.html')
+    return render_template("sxdindex.html")
 
 
-@app.route("/sxddata", methods=['GET', 'POST'])
+@app.route("/sxddata", methods=["GET", "POST"])
 def sxddata():
-    if request.method == 'POST':
-        reqFile = request.files['csvfile']
-        if reqFile.filename != '':
+    if request.method == "POST":
+        reqFile = request.files["csvfile"]
+        if reqFile.filename != "":
             reqFilename = secure_filename(reqFile.filename)
-            reqFile.save(os.path.join('static', reqFilename))
+            reqFile.save(os.path.join("static", reqFilename))
             data = []
-            with open(os.path.join('static', reqFilename)) as csv_file:
+            with open(os.path.join("static", reqFilename)) as csv_file:
                 csv_reader = csv.DictReader(csv_file)
                 for row in csv_reader:
                     data.append(row)
-            return render_template('sxddata.html', data=data)
-    return render_template('sxddata.html')
+            return render_template("sxddata.html", data=data)
+    return render_template("sxddata.html")
 
 
-
-@app.route("/sxdsearchbyname", methods=['GET', 'POST'])
+@app.route("/sxdsearchbyname", methods=["GET", "POST"])
 def sxdsearchbyname():
-    return render_template('sxdsearchbyname.html')
+    return render_template("sxdsearchbyname.html")
 
 
-@app.route("/sxdsearch", methods=['GET', 'POST'])
+@app.route("/sxdsearch", methods=["GET", "POST"])
 def sxdsearch():
-    if request.method == 'POST':
-        name = request.form['name']
-        csv_reader = csv.DictReader(open('static/people.csv'))
-        temp_path = ''
+    if request.method == "POST":
+        row = request.form["name"]
+        csv_reader = csv.DictReader(open("static/q1c.csv"))
+        temp_path = ""
+        seat = 0
         for r in csv_reader:
-            if name == r['Name']:
-                temp_path = '../static/' + r['Picture']
-        if temp_path != '':
-            return render_template('sxdsearchbyname.html', image_path=temp_path, message="found")
+            if row == r["row"]:
+                temp_path = "../newQuiz1/static/" + r["pic"]
+                seat = r["seat"]
+                name = r["name"]
+
+        if temp_path != "":
+            return render_template(
+                "sxdsearchbyname.html",
+                image_path=temp_path,
+                name=name,
+                seat=seat,
+                message="found",
+            )
         else:
-            return render_template('sxdsearchbyname.html', error="Not found!")
+            return render_template("sxdsearchbyname.html", error="Not found!")
 
 
-@app.route("/sxdsal", methods=['GET', 'POST'])
-def sxdsal():
-    csv_reader = csv.DictReader(open('static/people.csv'))
-    temp_path = []
-
-    for r in csv_reader:
-        if r['Salary'] == '' or r['Salary'] == ' ':
-            r['Salary'] = 99000;
-        if int(float(r['Salary'])) < 99000:
-            if r['Picture'] != ' ':
-                temp_path.append('static/' + r['Picture'])
-                print(temp_path)
-                print(int(float(r['Salary'])))
-
-    print(len(temp_path))
-    if temp_path != '':
-        return render_template('sxdsal.html', image_path=temp_path,  message="found")
-    else:
-        return render_template('sxdsal.html', error="Picture did not find!")
-
-
-@app.route("/sxdedit", methods=['GET', 'POST'])
+@app.route("/sxdedit", methods=["GET", "POST"])
 def sxdedit():
-    return render_template('sxdedit.html')
+    return render_template("sxdedit.html")
 
 
-@app.route("/sxdeditdetails", methods=['GET', 'POST'])
+@app.route("/sxdeditdetails", methods=["GET", "POST"])
 def sxdeditdetails():
-    if request.method == 'POST':
-        name = request.form['name']
-        csv_reader = csv.DictReader(open('static/people.csv'))
-        temp_name = ''
+    if request.method == "POST":
+        name = request.form["name"]
+        csv_reader = csv.DictReader(open("static/q1c.csv"))
+        temp_name = ""
         for r in csv_reader:
-            if name == r['Name']:
+            if name == r["name"]:
                 temp_name = name
-        if temp_name != '':
-            return render_template('sxd_display.html', name=temp_name)
+        print(temp_name)
+        if temp_name != "":
+            return render_template("sxd_display.html", name=temp_name)
         else:
-            return render_template('sxd_display.html', error="No Record Found!")
+            return render_template("sxd_display.html", error="No Record Found!")
 
 
-@app.route("/sxd_update", methods=['GET', 'POST'])
+@app.route("/sxdadd", methods=["GET"])
+def sxd_add():
+    return render_template("sxd_add.html")
+
+
+@app.route("/sxdadd", methods=["POST"])
+def sxdadd():
+    temp_name = request.form["name"]
+    temp_picture = request.files["pic"]  # Access the file using request.files
+    temp_seat = request.form["seat"]
+    temp_row = request.form["row"]
+    temp_notes = request.form["notes"]
+
+    temp = [
+        temp_name,
+        temp_picture.filename,
+        temp_seat,
+        temp_row,
+        temp_notes,
+    ]  # Use picture.filename to get the filename
+
+    with open("static/q1c.csv", "a") as csv_file:  # Use 'a' to append to the file
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(temp)
+
+    return render_template("sxd_show.html", msg="User Added Successfully.")
+
+
+@app.route("/sxd_update", methods=["GET", "POST"])
 def sxd_update():
-    if request.method == 'POST':
-        temp_name = request.form['name']
-        temp_state = request.form['state']
-        temp_salary = request.form['salary']
-        temp_grade = request.form['grade']
-        temp_room = request.form['room']
-        temp_picture = request.files['picture']  # Access the file using request.files
-        temp_keyword = request.form['keyword']
+    if request.method == "POST":
+        temp_name = request.form["name"]
+        temp_picture = request.files["pic"]  # Access the file using request.files
+        temp_seat = request.form["seat"]
+        temp_row = request.form["row"]
+        temp_notes = request.form["notes"]
         cnt = 0
 
-        temp = [temp_name, temp_state, temp_salary, temp_grade, temp_room, temp_picture.filename, temp_keyword]  # Use picture.filename to get the filename
+        temp = [
+            temp_name,
+            temp_picture.filename,
+            temp_notes,
+            temp_row,
+            temp_seat,
+        ]  # Use picture.filename to get the filename
         lines = []
 
-        with open('static/people.csv', 'r') as f1:
+        with open("static/q1c.csv", "r") as f1:
             csv_read = csv.reader(f1)
             for r in csv_read:
-                if name == r[0]:
+                if len(r) > 0 and temp_name == r[0]:
                     lines.append(temp)
                 else:
                     lines.append(r)
                 cnt += 1
+        print(cnt)
 
-        with open('static/people.csv', 'w') as csv_written:  # Use with open() to write to the file
+        with open(
+            "static/q1c.csv", "w"
+        ) as csv_written:  # Use with open() to write to the file
             csv_writer = csv.writer(csv_written)
-            csv_writer.writerows(line)
+            csv_writer.writerows(lines)
 
         if cnt != 0:
-            return render_template('sxd_display.html', update="One Record Updated Successfully.")
+            return render_template(
+                "sxd_display.html", update="One Record Updated Successfully."
+            )
         else:
-            return render_template('sxd_display.html', error="No Record Found!")
+            return render_template("sxd_display.html", error="No Record Found!")
 
 
+@app.route("/range", methods=["GET", "POST"])
+def range_view():
+    if request.method == "POST":
+        r1 = request.form["r1"]
+        r2 = request.form["r2"]
+        csv_reader = csv.DictReader(open("static/q1c.csv"))
+        temp_path = ""
+        temp_name = ""
+        temp_notes = ""
+        temp_seat = ""
+        temp_row = ""
+        count = 0
+        for r in csv_reader:
+            if r1 <= r["row"] and r2 >= r["row"]:
+                count += 1
+                temp_notes = r["notes"]
+                temp_path = "../newQuiz1/static/" + r["pic"]
+                temp_name = r["name"]
+                temp_seat = r["seat"]
+                temp_row = r["row"]
+        if count == 0:
+            return render_template("grade.html", error="no data found")
+        else:
+            return render_template(
+                "grade.html",
+                image_path=temp_path,
+                name=temp_name,
+                seat=temp_seat,
+                row=temp_row,
+                count=count,
+                notes=temp_notes,
+                message="found",
+            )
+    else:
+        # Handle the GET request
+        return render_template("grade.html")
 
-@app.route("/sxdremove", methods=['GET', 'POST'])
+
+@app.route("/sxdremove", methods=["GET", "POST"])
 def sxdremove():
-    return render_template('sxdremove.html')
+    return render_template("sxdremove.html")
 
-@app.route("/sxddelete", methods=['GET', 'POST'])
+
+@app.route("/sxddelete", methods=["GET", "POST"])
 def sxddelete():
-    if request.method == 'POST':
-        reqName = request.form['name']
+    if request.method == "POST":
+        reqName = request.form["name"]
         cnt = 0
         lines = list()
-        with open('static/people.csv', 'r') as f:
+        with open("static/q1c.csv", "r") as f:
             csv_read = csv.reader(f)
             for r in csv_read:
                 lines.append(r)
                 if reqName == r[0]:
                     lines.remove(r)
-                    cnt+=1
+                    cnt += 1
 
-
-            csv_write = open('static/people.csv', 'w')
+            csv_write = open("static/q1c.csv", "w")
             for i in lines:
                 for k in i:
-                    csv_write.write(k + ',')
-                csv_write.write('\n')
+                    csv_write.write(k + ",")
+                csv_write.write("\n")
 
         if cnt != 0:
-            return render_template('sxddelete.html', message="Record Remove Successfully.")
+            return render_template(
+                "sxddelete.html", message="Record Remove Successfully."
+            )
         else:
-            return render_template('sxddelete.html', error="Record Not Found.")
-
-@app.route("/sxdupload_pic", methods=['GET', 'POST'])
-def sxdpic():
-    return render_template('sxdupload_pic.html')
-
-@app.route("/sxd_newpic", methods=['GET', 'POST'])
-def sxd_newpic():
-    if request.method == 'POST':
-        reqFile = request.files['img']
-        reqFile.save('static/'+reqFile.filename)
-        return render_template('sxd_show.html', msg="Image Upload Successfully.")
+            return render_template("sxddelete.html", error="Record Not Found.")
 
 
 if __name__ == "__main__":

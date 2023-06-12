@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add User</title>
+    <style>
+        body {
+          font-family: Times New Roman, serif;
+          background-color: #eaeaea;
+          margin: 0;
+          padding: 0;
+        }
+      
+        h3, h4 {
+          margin: 0;
+          color: #ff6600;
+          background-color: #f7f7f7;
+          padding: 10px;
+          border-bottom: 2px solid #ccc;
+        }
+      
+        .center {
+          text-align: center;
+        }
+      
+        table {
+          color: #333;
+          background-color: #fff;
+          border-collapse: separate;
+          border-spacing: 5px;
+          width: 100%;
+          max-width: 800px;
+          margin: 20px auto;
+          border: 1px solid #ccc;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+      
+        td {
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      
+        a {
+          text-decoration: none;
+          color: #007bff;
+        }
+      
+        a:hover {
+          color: #ff6600;
+        }
+      
+        a:visited {
+          color: #333;
+        }
+      </style>
+</head>
+<body>
+    
+    <center><h1>Add User</h1> </center>
+
+    <table style="border: 1px solid black; padding: 8px;">
+
+        <tr><td>1</td><td><a href="/">Home</a></td></tr>
+        <tr><td>2</td><td><a href="/sxdsearchbyname">Search by Name:</a></td></tr>
+        <tr><td>3</td><td><a href="/sxdremove">Remove Details:</a></td></tr>
+        <tr><td>4</td><td><a href="/sxdadd">Add User.</a></td></tr>
+        <tr><td>5</td><td><a href="/sxdedit">Edit Details.</a></td></tr>
+        <tr><td>6</td><td><a href="/range">Range.</a></td></tr>
+      </table>
+
+    {% if success %}
+    <p style="color: green;">{{ success }}</p>
+    {% endif %}
+
+    <center>
+        <form method="POST" action="/sxdadd" enctype="multipart/form-data">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+    
+            <label for="pic">Picture:</label>
+            <input type="file" id="pic" name="pic" ><br><br>
+    
+            <label for="seat">Seat:</label>
+            <input type="text" id="seat" name="seat" ><br><br>
+    
+            <label for="row">Row:</label>
+            <input type="text" id="row" name="row" ><br><br>
+    
+            <label for="notes">Notes:</label>
+            <input type="text" id="notes" name="notes" ><br><br>
+    
+            <input type="submit" value="Add User">
+        </form>
+    </center>
+    
+</body>
+</html>
