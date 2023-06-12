@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #75e44c;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h3, h4 {
+    margin: 0;
+    padding: 10px;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 1px solid black;
+  }
+  
+  td {
+    padding: 8px;
+    border: 1px solid black;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  a:hover {
+    color: #007bff;
+  }
+  
+  a:visited {
+    color: #333;
+  }
+  
