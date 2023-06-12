@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+    <title>Remove Details</title>
+    <style>
+      body {
+        font-family: Times New Roman, serif;
+        background-color: #eaeaea;
+        margin: 0;
+        padding: 0;
+      }
+    
+      h3, h4 {
+        margin: 0;
+        color: #ff6600;
+        background-color: #f7f7f7;
+        padding: 10px;
+        border-bottom: 2px solid #ccc;
+      }
+    
+      .center {
+        text-align: center;
+      }
+    
+      table {
+        color: #333;
+        background-color: #fff;
+        border-collapse: separate;
+        border-spacing: 5px;
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+    
+      td {
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+    
+      a {
+        text-decoration: none;
+        color: #007bff;
+      }
+    
+      a:hover {
+        color: #ff6600;
+      }
+    
+      a:visited {
+        color: #333;
+      }
+    </style>
+    
+</head>
+<body>
+  <center><h3>CSE 6332 Assignment-01 Siddhesh Dandavatimath</h3></center>
+  <center><h4>1002091182</h4></center><br/><br/>
+<center>
+<table style="border: 1px solid black; padding: 8px;">
+
+  <tr><td>1</td><td><a href="/">Home</a></td></tr>
+  <tr><td>2</td><td><a href="/sxdupload">Upload your file:</a></td></tr>
+  <tr><td>3</td><td><a href="/sxdsearchbyname">Search by Name:</a></td></tr>
+  <tr><td>4</td><td><a href="/sxdsal">Pictures with salary less than 99000:</a></td></tr>
+  <tr><td>5</td><td><a href="/sxdremove">Remove Details:</a></td></tr>
+  <tr><td>6</td><td><a href="/sxdupload_pic">Upload Image.</a></td></tr>
+  <tr><td>7</td><td><a href="/sxdedit">Edit Details.</a></td></tr>
+</table>
+
+<h4>Enter Name to Remove Details.</h4>
+<form action="/sxddelete" method="post">
+  <input type="text" name="name"/><br/><br/>
+  <input type="submit" value="Submit"/>
+</form><br/><br/>
+</center>
+</body>
+</html>
